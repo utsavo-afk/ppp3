@@ -1,0 +1,49 @@
+{
+  "name": "cpp-modules-syntax",
+  "displayName": "C++20 Modules + cppreference hovers (ppp3)",
+  "description": "Highlights import/export/module, hover + go-to-definition for module names, and adds cppreference links and summaries under clangd's hovers.",
+  "publisher": "ppp3-local",
+  "version": "0.1.0",
+  "engines": {
+    "vscode": "^1.80.0"
+  },
+  "categories": [
+    "Programming Languages"
+  ],
+  "contributes": {
+    "grammars": [
+      {
+        "scopeName": "cpp-modules.injection",
+        "path": "./syntaxes/cpp-modules.injection.json",
+        "injectTo": [
+          "source.cpp"
+        ]
+      }
+    ],
+    "configuration": {
+      "title": "C++ cppreference hovers",
+      "properties": {
+        "cppModules.cppreference.enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Add a cppreference.com section (link) under clangd's hover for standard-library names."
+        },
+        "cppModules.cppreference.summaries": {
+          "type": "boolean",
+          "default": true,
+          "description": "Also show the first lines of the cppreference page (fetched once, then cached on disk)."
+        }
+      }
+    },
+    "commands": [
+      {
+        "command": "cppModules.cppreference.clearCache",
+        "title": "cppreference: Clear Summary Cache"
+      }
+    ]
+  },
+  "main": "./extension.js",
+  "activationEvents": [
+    "onLanguage:cpp"
+  ]
+}

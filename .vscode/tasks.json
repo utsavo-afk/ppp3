@@ -1,0 +1,63 @@
+{
+  "version": "2.0.0",
+  "options": { "cwd": "${workspaceFolder}" },
+  "presentation": { "clear": true, "reveal": "always", "panel": "shared", "showReuseMessage": false },
+  "tasks": [
+    {
+      "label": "ppp: build active file",
+      "type": "shell",
+      "command": "make build FILE='${relativeFile}' -j",
+      "group": { "kind": "build", "isDefault": true },
+      "problemMatcher": {
+        "owner": "cpp",
+        "fileLocation": ["autoDetect", "${workspaceFolder}"],
+        "pattern": {
+          "regexp": "^(.*?):(\\d+):(\\d+):\\s+(warning|error|fatal error):\\s+(.*)$",
+          "file": 1, "line": 2, "column": 3, "severity": 4, "message": 5
+        }
+      }
+    },
+    {
+      "label": "ppp: run active file",
+      "type": "shell",
+      "command": "make run FILE='${relativeFile}' -j",
+      "group": { "kind": "test", "isDefault": true },
+      "presentation": { "focus": true },
+      "problemMatcher": {
+        "owner": "cpp",
+        "fileLocation": ["autoDetect", "${workspaceFolder}"],
+        "pattern": {
+          "regexp": "^(.*?):(\\d+):(\\d+):\\s+(warning|error|fatal error):\\s+(.*)$",
+          "file": 1, "line": 2, "column": 3, "severity": 4, "message": 5
+        }
+      }
+    },
+    {
+      "label": "ppp: run active file (release)",
+      "type": "shell",
+      "command": "make MODE=release run FILE='${relativeFile}' -j",
+      "presentation": { "focus": true },
+      "problemMatcher": []
+    },
+    {
+      "label": "ppp: build everything",
+      "type": "shell",
+      "command": "make -j",
+      "problemMatcher": []
+    },
+    {
+      "label": "ppp: build modules (std, PPP) for clangd",
+      "type": "shell",
+      "command": "make modules -j",
+      "runOptions": { "runOn": "folderOpen" },
+      "presentation": { "reveal": "silent" },
+      "problemMatcher": []
+    },
+    {
+      "label": "ppp: clean",
+      "type": "shell",
+      "command": "make clean",
+      "problemMatcher": []
+    }
+  ]
+}

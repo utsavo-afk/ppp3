@@ -1,0 +1,118 @@
+{
+  // ---------------------------------------------------------------- clangd --
+  // Use the clangd that matches the compiler (clang++-22). Prebuilt module
+  // files (std.pcm, PPP.pcm) only load in the exact same LLVM version.
+  "clangd.path": "/usr/bin/clangd-22",
+  "clangd.arguments": [
+    "--background-index",
+    "--clang-tidy",
+    "--header-insertion=never",
+    "--completion-style=detailed",
+    "--function-arg-placeholders=true",
+    "--pch-storage=memory",
+    "--log=error",
+    "-j=8"
+  ],
+  "clangd.checkUpdates": false,
+  "clangd.detectExtensionConflicts": true,
+
+  // Turn off Microsoft's C++ IntelliSense so it doesn't fight with clangd.
+  "C_Cpp.intelliSenseEngine": "disabled",
+  "C_Cpp.autocomplete": "disabled",
+  "C_Cpp.errorSquiggles": "disabled",
+  "C_Cpp.formatting": "disabled",
+  "C_Cpp.hover": "disabled",
+  "makefile.configureOnOpen": false,
+
+  // No Python here: stop the Python extension from injecting PYTHONSTARTUP
+  // into terminals (it caused a "relaunch the terminal" warning on tasks).
+  "python.terminal.shellIntegration.enabled": false,
+  "python.terminal.activateEnvironment": false,
+
+  "files.associations": {
+    "*.ixx": "cpp",
+    "*.cppm": "cpp",
+    "*.h": "cpp"
+  },
+  "files.watcherExclude": { "**/build/**": true, "**/.cache/**": true },
+  "search.exclude": { "**/build": true, "**/.cache": true },
+
+  // ------------------------------------------------- format on save (Google) --
+  "[cpp]": {
+    "editor.defaultFormatter": "llvm-vs-code-extensions.vscode-clangd",
+    "editor.formatOnSave": true,
+    "editor.formatOnSaveMode": "file",
+    "editor.formatOnType": true,
+    "editor.tabSize": 2,
+    "editor.insertSpaces": true,
+    "editor.rulers": [80],
+    "editor.semanticHighlighting.enabled": true
+  },
+
+  // --------------------------------------------------------------- debugger --
+  "lldb.showDisassembly": "auto",
+  "lldb.dereferencePointers": true,
+  "lldb.consoleMode": "evaluate",
+
+  // ------------------------------ C++20 modules (import std; export module) --
+  // Scopes come from tools/cpp-modules-syntax (VS Code's own C++ grammar
+  // doesn't know module syntax, and clangd doesn't color keywords).
+  "editor.tokenColorCustomizations": {
+    "[Monokai]": {
+      "textMateRules": [
+        {
+          "scope": ["keyword.other.import.cpp", "keyword.other.module.cpp", "storage.modifier.export.cpp"],
+          "settings": { "foreground": "#F92672" }
+        },
+        {
+          "scope": ["entity.name.namespace.module.cpp", "entity.name.namespace.module.partition.cpp"],
+          "settings": { "foreground": "#CFCFC2" }
+        }
+      ]
+    }
+  },
+
+  // ------------------------------------------- semantic colors for Monokai --
+  // clangd tells VS Code what every identifier *is* (parameter, member, type,
+  // std function, macro, ...). These rules color those tokens in Monokai's
+  // own palette.
+  "editor.semanticTokenColorCustomizations": {
+    "[Monokai]": {
+      "enabled": true,
+      "rules": {
+        "variable:cpp": "#F8F8F2",
+        "variable.readonly:cpp": "#AE81FF",
+        "variable.globalScope:cpp": { "foreground": "#F8F8F2", "bold": true },
+        "parameter:cpp": { "foreground": "#FD971F", "italic": true },
+        "property:cpp": "#E6E1C4",
+        "property.static:cpp": { "foreground": "#E6E1C4", "italic": true },
+
+        "function:cpp": "#A6E22E",
+        "method:cpp": "#A6E22E",
+        "method.virtual:cpp": { "foreground": "#A6E22E", "italic": true },
+        "function.defaultLibrary:cpp": "#66D9EF",
+        "method.defaultLibrary:cpp": "#66D9EF",
+        "method.constructorOrDestructor:cpp": { "foreground": "#66D9EF", "italic": true },
+        "operator:cpp": "#F92672",
+
+        "class:cpp": { "foreground": "#66D9EF", "italic": true },
+        "struct:cpp": { "foreground": "#66D9EF", "italic": true },
+        "enum:cpp": { "foreground": "#66D9EF", "italic": true },
+        "type:cpp": { "foreground": "#66D9EF", "italic": true },
+        "class.defaultLibrary:cpp": { "foreground": "#66D9EF", "italic": true },
+        "typeParameter:cpp": { "foreground": "#FD971F", "italic": true, "underline": false },
+        "concept:cpp": { "foreground": "#66D9EF", "italic": true, "bold": true },
+        "enumMember:cpp": "#AE81FF",
+
+        "namespace:cpp": "#CFCFC2",
+        "macro:cpp": { "foreground": "#A6E22E", "italic": true },
+        "label:cpp": "#F92672",
+        "comment:cpp": "#75715E",
+
+        "*.usedAsMutableReference:cpp": { "underline": true },
+        "*.usedAsMutablePointer:cpp": { "underline": true },
+        "*.deprecated:cpp": { "strikethrough": true }
+      }
+    }
+  }
+}

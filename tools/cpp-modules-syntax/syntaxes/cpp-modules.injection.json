@@ -1,0 +1,45 @@
+{
+  "scopeName": "cpp-modules.injection",
+  "injectionSelector": "L:source.cpp -comment -string",
+  "patterns": [
+    {
+      "comment": "import std;  export import std.compat;  import :part;",
+      "match": "^\\s*(?:(export)\\s+)?(import)\\s+([A-Za-z_][\\w.]*)?(?:(:)([A-Za-z_][\\w.]*))?\\s*(;)",
+      "captures": {
+        "1": { "name": "storage.modifier.export.cpp" },
+        "2": { "name": "keyword.other.import.cpp" },
+        "3": { "name": "entity.name.namespace.module.cpp" },
+        "4": { "name": "punctuation.separator.partition.cpp" },
+        "5": { "name": "entity.name.namespace.module.partition.cpp" },
+        "6": { "name": "punctuation.terminator.statement.cpp" }
+      }
+    },
+    {
+      "comment": "header units: import <vector>;  import \"x.h\";",
+      "match": "^\\s*(?:(export)\\s+)?(import)\\s+(<[^>]*>|\"[^\"]*\")\\s*(;)",
+      "captures": {
+        "1": { "name": "storage.modifier.export.cpp" },
+        "2": { "name": "keyword.other.import.cpp" },
+        "3": { "name": "string.quoted.other.lt-gt.include.cpp" },
+        "4": { "name": "punctuation.terminator.statement.cpp" }
+      }
+    },
+    {
+      "comment": "export module PPP;  module;  module :private;",
+      "match": "^\\s*(?:(export)\\s+)?(module)\\b\\s*([A-Za-z_][\\w.]*)?(?:(:)([A-Za-z_][\\w.]*))?\\s*(;)",
+      "captures": {
+        "1": { "name": "storage.modifier.export.cpp" },
+        "2": { "name": "keyword.other.module.cpp" },
+        "3": { "name": "entity.name.namespace.module.cpp" },
+        "4": { "name": "punctuation.separator.partition.cpp" },
+        "5": { "name": "entity.name.namespace.module.partition.cpp" },
+        "6": { "name": "punctuation.terminator.statement.cpp" }
+      }
+    },
+    {
+      "comment": "export template<...>, export struct X, export { ... }",
+      "match": "(?<![\\w.])export\\b(?=\\s*(?:\\{|[A-Za-z_]))",
+      "name": "storage.modifier.export.cpp"
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+# clangd gets the compiler flags from compile_flags.txt (written by `make`).
+# (~/.config/clangd/config.yaml is told to skip this folder: If/PathExclude.)
+CompileFlags:
+  Compiler: clang++-22   # so -stdlib=libc++ finds libc++'s headers
+  Add: [-DPPP_CLANGD]    # see include/ppp_prelude.h
+Diagnostics:
+  UnusedIncludes: Strict
+  MissingIncludes: None    # `import std;` code would trigger false positives
+  ClangTidy:
+    FastCheckFilter: Loose
+InlayHints:
+  Enabled: true
+  ParameterNames: true
+  DeducedTypes: true
+  Designators: true
+  BlockEnd: false
+Hover:
+  ShowAKA: true
+Completion:
+  AllScopes: true
+  ArgumentLists: FullPlaceholders
+Documentation:
+  CommentFormat: Doxygen
+---
+# PPP.ixx is a module interface unit, not a plain .cpp
+If:
+  PathMatch: .*\.(ixx|cppm)
+CompileFlags:
+  Remove: [-xc++]
+  Add: [-xc++-module]

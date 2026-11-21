@@ -1,0 +1,52 @@
+# Helpful, low-noise checks for learning. Shown live by clangd in the editor.
+# Turned off on purpose:
+#   bugprone-exception-escape  PPP code throws on errors by design (error(), narrow)
+#   performance-enum-size      "use uint8_t for your enum" - a micro-optimization
+Checks: >
+  -*,
+  bugprone-*,
+  -bugprone-easily-swappable-parameters,
+  -bugprone-exception-escape,
+  -bugprone-narrowing-conversions,
+  performance-*,
+  -performance-enum-size,
+  modernize-*,
+  -modernize-use-trailing-return-type,
+  -modernize-use-nodiscard,
+  -modernize-avoid-c-arrays,
+  -modernize-use-std-print,
+  readability-misleading-indentation,
+  readability-redundant-*,
+  readability-container-size-empty,
+  readability-else-after-return,
+  readability-identifier-naming,
+  misc-redundant-expression,
+  misc-unused-using-decls,
+  cppcoreguidelines-init-variables,
+  cppcoreguidelines-narrowing-conversions,
+  cppcoreguidelines-pro-type-member-init
+
+# Only report problems in your own code, not in include/ (PPP, dbg.h).
+HeaderFilterRegex: '^.*/src/.*'
+
+CheckOptions:
+  # Google naming: ClassName, FunctionName, local_variable, kConstant, member_
+  readability-identifier-naming.ClassCase: CamelCase
+  readability-identifier-naming.StructCase: CamelCase
+  readability-identifier-naming.EnumCase: CamelCase
+  readability-identifier-naming.EnumConstantCase: CamelCase
+  readability-identifier-naming.EnumConstantPrefix: k
+  readability-identifier-naming.TypeAliasCase: CamelCase
+  readability-identifier-naming.FunctionCase: CamelCase
+  readability-identifier-naming.FunctionIgnoredRegexp: '^(main|begin|end|size|empty|swap|operator.*)$'
+  readability-identifier-naming.VariableCase: lower_case
+  readability-identifier-naming.ParameterCase: lower_case
+  readability-identifier-naming.PrivateMemberCase: lower_case
+  readability-identifier-naming.PrivateMemberSuffix: _
+  readability-identifier-naming.ProtectedMemberCase: lower_case
+  readability-identifier-naming.ProtectedMemberSuffix: _
+  readability-identifier-naming.ConstexprVariableCase: CamelCase
+  readability-identifier-naming.ConstexprVariablePrefix: k
+  readability-identifier-naming.GlobalConstantCase: CamelCase
+  readability-identifier-naming.GlobalConstantPrefix: k
+  readability-identifier-naming.NamespaceCase: lower_case
